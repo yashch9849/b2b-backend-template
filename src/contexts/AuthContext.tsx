@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://167.71.231.36/api/login', {
+      const response = await fetch('http://167.71.231.36/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
