@@ -48,8 +48,8 @@ export default function Dashboard() {
   return (
     <div>
       <div className="page-header">
-        <h1 className="page-title">COMMAND CENTER</h1>
-        <p className="page-description">Real-time marketplace intelligence</p>
+        <h1 className="page-title">Dashboard</h1>
+        <p className="page-description">Overview of your marketplace</p>
       </div>
 
       {/* Stats Grid */}
@@ -59,47 +59,41 @@ export default function Dashboard() {
           value={mockStats.totalVendors}
           icon={Store}
           description={`${mockStats.pendingVendors} pending approval`}
-          accentColor="primary"
         />
         <StatCard
           title="Total Customers"
           value={mockStats.totalCustomers}
           icon={Users}
           description={`${mockStats.pendingCustomers} pending approval`}
-          accentColor="secondary"
         />
         <StatCard
           title="Total Products"
           value={mockStats.totalProducts}
           icon={Package}
-          accentColor="accent"
         />
         <StatCard
           title="Total Orders"
           value={mockStats.totalOrders}
           icon={ShoppingCart}
-          accentColor="success"
         />
         <StatCard
           title="Pending Vendors"
           value={mockStats.pendingVendors}
           icon={AlertCircle}
-          accentColor="warning"
+          className="border-warning/50"
         />
         <StatCard
           title="Pending Customers"
           value={mockStats.pendingCustomers}
           icon={Clock}
-          accentColor="warning"
+          className="border-warning/50"
         />
       </div>
 
       {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-panel p-6 neon-border">
-          <h2 className="text-lg font-display font-semibold mb-4 text-primary tracking-wider">
-            RECENT ORDERS
-          </h2>
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
           <DataTable
             columns={orderColumns}
             data={mockRecentOrders}
@@ -107,10 +101,8 @@ export default function Dashboard() {
           />
         </div>
 
-        <div className="glass-panel p-6 neon-border">
-          <h2 className="text-lg font-display font-semibold mb-4 text-secondary tracking-wider">
-            VENDOR APPLICATIONS
-          </h2>
+        <div>
+          <h2 className="text-lg font-semibold mb-4">Recent Vendor Applications</h2>
           <DataTable
             columns={vendorColumns}
             data={mockRecentVendors}

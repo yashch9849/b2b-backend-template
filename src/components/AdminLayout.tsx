@@ -38,26 +38,20 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="min-h-screen flex bg-background scanline">
+    <div className="min-h-screen flex bg-background">
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300',
-          'bg-sidebar/80 backdrop-blur-xl border-r border-primary/20',
+          'fixed inset-y-0 left-0 z-50 flex flex-col bg-sidebar transition-all duration-300',
           sidebarOpen ? 'w-64' : 'w-16'
         )}
-        style={{
-          boxShadow: '0 0 40px hsl(180 100% 50% / 0.1), inset -1px 0 0 hsl(180 100% 50% / 0.1)',
-        }}
       >
         {/* Logo */}
-        <div className="flex items-center h-16 px-4 border-b border-primary/20">
+        <div className="flex items-center h-16 px-4 border-b border-sidebar-border">
           {sidebarOpen ? (
-            <h1 className="text-xl font-display font-bold text-primary glow-text tracking-wider">
-              NEXUS<span className="text-secondary">ADMIN</span>
-            </h1>
+            <h1 className="text-xl font-semibold text-sidebar-foreground">Admin Panel</h1>
           ) : (
-            <span className="text-xl font-display font-bold text-primary glow-text">N</span>
+            <span className="text-xl font-bold text-sidebar-foreground">A</span>
           )}
         </div>
 
@@ -73,26 +67,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   <Link
                     to={item.path}
                     className={cn(
-                      'flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-200',
-                      'relative overflow-hidden group',
+                      'flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors',
                       isActive
-                        ? 'bg-primary/20 text-primary border border-primary/30'
-                        : 'text-sidebar-muted hover:bg-primary/10 hover:text-primary border border-transparent hover:border-primary/20'
+                        ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                        : 'text-sidebar-muted hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
                     )}
-                    style={isActive ? {
-                      boxShadow: '0 0 20px hsl(180 100% 50% / 0.15), inset 0 0 20px hsl(180 100% 50% / 0.05)',
-                    } : {}}
                   >
-                    <Icon className={cn(
-                      'w-5 h-5 flex-shrink-0 transition-all duration-200',
-                      isActive && 'drop-shadow-[0_0_8px_hsl(180_100%_50%/0.8)]'
-                    )} />
-                    {sidebarOpen && (
-                      <span className="tracking-wide">{item.label}</span>
-                    )}
-                    {isActive && (
-                      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary shadow-[0_0_10px_hsl(180_100%_50%/0.8)]" />
-                    )}
+                    <Icon className="w-5 h-5 flex-shrink-0" />
+                    {sidebarOpen && <span>{item.label}</span>}
                   </Link>
                 </li>
               );
@@ -101,20 +83,20 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </nav>
 
         {/* User section */}
-        <div className="p-4 border-t border-primary/20">
+        <div className="p-4 border-t border-sidebar-border">
           {sidebarOpen ? (
             <div className="flex items-center justify-between">
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-sidebar-foreground truncate tracking-wide">
+                <p className="text-sm font-medium text-sidebar-foreground truncate">
                   {user?.name || user?.email}
                 </p>
-                <p className="text-xs text-primary font-display tracking-widest">ADMIN</p>
+                <p className="text-xs text-sidebar-muted">Admin</p>
               </div>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={logout}
-                className="text-sidebar-muted hover:text-destructive hover:bg-destructive/10 border border-transparent hover:border-destructive/30 transition-all"
+                className="text-sidebar-muted hover:text-sidebar-foreground hover:bg-sidebar-accent"
               >
                 <LogOut className="w-4 h-4" />
               </Button>
@@ -124,7 +106,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               variant="ghost"
               size="icon"
               onClick={logout}
-              className="w-full text-sidebar-muted hover:text-destructive hover:bg-destructive/10 border border-transparent hover:border-destructive/30"
+              className="w-full text-sidebar-muted hover:text-sidebar-foreground hover:bg-sidebar-accent"
             >
               <LogOut className="w-4 h-4" />
             </Button>
@@ -140,20 +122,16 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         )}
       >
         {/* Header */}
-        <header className="sticky top-0 z-40 flex items-center h-16 px-6 bg-card/60 backdrop-blur-xl border-b border-primary/10">
+        <header className="sticky top-0 z-40 flex items-center h-16 px-6 bg-card border-b">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="mr-4 text-muted-foreground hover:text-primary hover:bg-primary/10 border border-transparent hover:border-primary/20"
+            className="mr-4"
           >
             <Menu className="w-5 h-5" />
           </Button>
           <div className="flex-1" />
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-success animate-pulse shadow-[0_0_10px_hsl(150_100%_45%/0.8)]" />
-            <span className="text-xs text-muted-foreground font-display tracking-wider">SYSTEM ONLINE</span>
-          </div>
         </header>
 
         {/* Page content */}

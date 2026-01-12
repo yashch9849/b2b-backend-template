@@ -66,31 +66,29 @@ export default function Orders() {
   return (
     <div>
       <div className="page-header">
-        <h1 className="page-title">ORDER TRACKING</h1>
-        <p className="page-description">Monitor all marketplace transactions</p>
+        <h1 className="page-title">Orders</h1>
+        <p className="page-description">View all orders in the marketplace</p>
       </div>
 
       <div className="mb-6">
         <div className="relative max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="Search orders..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 bg-muted/30 border-border/50 focus:border-primary/50 focus:ring-primary/20 font-mono text-sm"
+            className="pl-9"
           />
         </div>
       </div>
 
-      <div className="glass-panel p-1 neon-border">
-        <DataTable
-          columns={columns}
-          data={filteredOrders}
-          keyExtractor={(order) => order.id}
-          onRowClick={(order) => navigate(`/orders/${order.id}`)}
-          emptyMessage="NO ORDERS FOUND"
-        />
-      </div>
+      <DataTable
+        columns={columns}
+        data={filteredOrders}
+        keyExtractor={(order) => order.id}
+        onRowClick={(order) => navigate(`/orders/${order.id}`)}
+        emptyMessage="No orders found"
+      />
     </div>
   );
 }

@@ -27,20 +27,17 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   if (data.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-        <div className="w-16 h-16 rounded-lg bg-muted/30 border border-border/50 flex items-center justify-center mb-4">
-          <span className="text-2xl opacity-50">∅</span>
-        </div>
-        <span className="font-display tracking-wider text-sm">{emptyMessage}</span>
+      <div className="flex items-center justify-center py-12 text-muted-foreground">
+        {emptyMessage}
       </div>
     );
   }
 
   return (
-    <div className={cn('overflow-x-auto rounded-lg border border-border/30 bg-card/40 backdrop-blur-sm', className)}>
+    <div className={cn('overflow-x-auto rounded-lg border bg-card', className)}>
       <table className="data-table">
         <thead>
-          <tr className="border-b border-primary/20">
+          <tr>
             {columns.map((column) => (
               <th key={column.key} className={column.className}>
                 {column.header}
@@ -49,21 +46,14 @@ export function DataTable<T>({
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {data.map((item) => (
             <tr
               key={keyExtractor(item)}
               onClick={() => onRowClick?.(item)}
-              className={cn(
-                onRowClick && 'cursor-pointer',
-                'transition-all duration-200 hover:bg-primary/5',
-                index % 2 === 0 ? 'bg-transparent' : 'bg-muted/10'
-              )}
-              style={{
-                animationDelay: `${index * 50}ms`,
-              }}
+              className={cn(onRowClick && 'cursor-pointer')}
             >
               {columns.map((column) => (
-                <td key={column.key} className={cn('border-b border-border/20', column.className)}>
+                <td key={column.key} className={column.className}>
                   {column.render
                     ? column.render(item)
                     : (item as Record<string, unknown>)[column.key]?.toString() ?? '-'}
