@@ -52,29 +52,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // For demo purposes, simulate API call
-      // In production, replace with actual API call:
-      // const response = await authApi.login(email, password);
-      
-      // Demo credentials check
-      if (email === 'admin@example.com' && password === 'admin123') {
-        const mockUser = {
-          id: '1',
-          email: 'admin@example.com',
-          role: 'admin',
-          name: 'Admin User',
-        };
-        const mockToken = 'demo_admin_token_' + Date.now();
+      const response = await fetch('http://167.71.231.36/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-        localStorage.setItem('admin_token', mockToken);
-        localStorage.setItem('admin_user', JSON.stringify(mockUser));
-        
-        setToken(mockToken);
-        setUser(mockUser);
-        navigate('/');
-      } else {
-        throw new Error('Invalid credentials');
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
       }
+
+      // Check if user has admin role
+      if (data.user?.role !== 'admin') {
+        throw new Error('Access denied. Admin privileges required.');
+      }
+
+      const user = {
+        id: data.user.id?.toString() || '1',
+        email: data.user.email,
+        role: data.user.role,
+        name: data.user.name,
+      };
+      const token = data.token;
+
+      localStorage.setItem('admin_token', token);
+      localStorage.setItem('admin_user', JSON.stringify(user));
+      
+      setToken(token);
+      setUser(user);
+      navigate('/');
     } catch (error) {
       throw error;
     } finally {
